@@ -25,7 +25,7 @@ ntnM2l6VIxMDHCxbZ9/cu4o/KjW2iT3802D4EWxPT3eksdZERgSVPTJrKskMzey+
 VwIDAQAB
 -----END PUBLIC KEY-----
 EOF
-	echo "https://cdn.layeh.com/alpine/$VERSION/" >> /etc/apk/repositories
+	echo "https://cdn.layeh.com/alpine/3.10/" >> /etc/apk/repositories
 
 	if ! apk add --no-cache alpine-base linux-virt syslinux grub grub-bios e2fsprogs eudev openssh rng-tools rng-tools-openrc digitalocean-alpine >>"$logfile" 2>>"$logfile"; then
 		echo
