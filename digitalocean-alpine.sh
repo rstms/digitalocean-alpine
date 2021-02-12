@@ -3,6 +3,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+VERSION=3.13
+RELEASE=${VERSION}.1
+CHECKSUM=1ab0a7c05107c4504018be170d937c07e35283b7a3f153886c8c93162dfbf4af
+
 logfile="/tmp/digitalocean-alpine.log"
 
 if [ "$1" = "--step-chroot" ]; then
@@ -21,7 +25,7 @@ ntnM2l6VIxMDHCxbZ9/cu4o/KjW2iT3802D4EWxPT3eksdZERgSVPTJrKskMzey+
 VwIDAQAB
 -----END PUBLIC KEY-----
 EOF
-	echo "https://cdn.layeh.com/alpine/3.10/" >> /etc/apk/repositories
+	echo "https://cdn.layeh.com/alpine/$VERSION/" >> /etc/apk/repositories
 
 	if ! apk add --no-cache alpine-base linux-virt syslinux grub grub-bios e2fsprogs eudev openssh rng-tools rng-tools-openrc digitalocean-alpine >>"$logfile" 2>>"$logfile"; then
 		echo
@@ -94,15 +98,15 @@ if [ ! -x "$SCRIPTPATH" ]; then
 	exit 1
 fi
 
-printf "Downloading Alpine 3.10.2..." >&2
-if ! wget -q -O /tmp/rootfs.tar.gz http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/x86_64/alpine-minirootfs-3.10.2-x86_64.tar.gz; then
+printf "Downloading Alpine $RELEASE..." >&2
+if ! wget -q -O /tmp/rootfs.tar.gz http://dl-cdn.alpinelinux.org/alpine/v${VERSION}/releases/x86_64/alpine-minirootfs-${RELEASE}-x86_64.tar.gz; then
 	echo " Failed!" >&2
 	exit 1
 fi
 echo " Done" >&2
 
 printf "Verifying SHA256 checksum..." >&2
-if ! echo "869b1f491d04b712892a4232b2afc24998f05eae4fb114fc6e44f4b1ab67f80c  /tmp/rootfs.tar.gz" | sha256sum -c >/dev/null 2>&1; then
+if ! echo "${CHECKSUM} /tmp/rootfs.tar.gz" | sha256sum -c >/dev/null 2>&1; then
 	echo " Failed!" >&2
 	exit 1
 fi
